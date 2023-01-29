@@ -81,17 +81,22 @@ df_sum <- df %>%
 
 #================================================================#
 # Make another data frame of just the trajectory endpoints
+# **In the original code, time_index == 9 in all cases below. 
+# ** Since I am only using this for simple vowels, not diphthongs,
+# ** I will grab it from the middle of the vowel, i.e. time 5.
 df_endpt <- df_sum %>%
     dplyr::filter(!vowel %in% exclude_these_Vs) %>%
     group_by(vowel, IPA) %>%
     summarise(
-        F1s = F1s[time_index == 9],
-        F2s = F2s[time_index == 9],
-        F3s = F3s[time_index == 9],
+        # F1s is ....
+        F1s = F1s[time_index == 5],
+        F2s = F2s[time_index == 5],
+        F3s = F3s[time_index == 5],
         #
-        F1 = F1[time_index == 9],
-        F2 = F2[time_index == 9],
-        F3 = F3[time_index == 9])
+        # F1 is ....
+        F1 = F1[time_index == 5],
+        F2 = F2[time_index == 5],
+        F3 = F3[time_index == 5])
 
 #================================================================#
 # Plot it!
@@ -99,8 +104,8 @@ px_v_space_smooth <- df_sum %>%
     dplyr::filter(time_index > 1, time_index < 10) %>%
     ggplot(.)+
     aes(x = F2s, y = F1s, group = vowel, color = vowel)+
-    # trajectory
-    geom_path(linewidth = 1.1)+
+    # trajectory ** commented out for now
+    #geom_path(linewidth = 1.1)+
     # IPA symbol encapsulated in a label
     geom_label(data = df_endpt,label.padding = unit(0.2, "line"), 
                aes(label = IPA))+
@@ -117,6 +122,6 @@ px_v_space_smooth <- df_sum %>%
 px_v_space_smooth
 
 # Save the plot
-ggsave(px_v_space_smooth, file = "My_vowel_space.png",
+ggsave(px_v_space_smooth, file = "My_vowel_space_no_trajectory.png",
        height = 3.7, width = 4.8, dpi = 600)
 # End!
