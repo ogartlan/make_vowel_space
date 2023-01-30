@@ -68,7 +68,11 @@ exclude_these_Vs <-
 # if you recorded multiple versions of the same vowel,
 # then average over them here
 df_sum <- df %>%
-    dplyr::filter(!vowel %in% exclude_these_Vs) %>%
+    # Filters out vowels taht are in the "excluded" list
+    dplyr::filter(!vowel %in% exclude_these_Vs) %>% 
+    # group rows by column values in the DataFrame. 
+    # Because of the %>% above, the data frame is
+    # the filtered csv
     group_by(vowel, IPA, time_index) %>%
     summarise(F1 = mean(F1, na.rm = TRUE),
               F2 = mean(F2, na.rm = TRUE),
