@@ -63,7 +63,7 @@ exclude_these_Vs <- as.character("")
 
 # for most vowel plots, I want to leave these out. 
 exclude_these_Vs <- 
-    c("cr","er","ar", "xx","ai","ait","aw","oi")
+    c("cr","er","ar","xx","ai","ait","oi","oh","au","ei")
 #================================================================#
 # if you recorded multiple versions of the same vowel,
 # then average over them here
@@ -127,6 +127,6 @@ px_v_space_smooth <- df_sum %>%
 px_v_space_smooth
 
 # Save the plot
-ggsave(px_v_space_smooth, file = "My_vowel_space_no_trajectory.png",
+ggsave(px_v_space_smooth, file = "My_vowel_no_diph.png",
        height = 3.7, width = 4.8, dpi = 600)
 # End!
