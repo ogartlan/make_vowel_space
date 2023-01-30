@@ -63,7 +63,7 @@ exclude_these_Vs <- as.character("")
 
 # for most vowel plots, I want to leave these out. 
 exclude_these_Vs <- 
-    c("cr","er","ar", "xx")
+    c("cr","er","ar", "xx","ai","ait","aw","oi")
 #================================================================#
 # if you recorded multiple versions of the same vowel,
 # then average over them here
