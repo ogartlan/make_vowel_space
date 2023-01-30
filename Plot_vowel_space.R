@@ -74,14 +74,15 @@ df_sum <- df %>%
     # Because of the %>% above, the data frame is
     # the filtered csv
     group_by(vowel, IPA, time_index) %>%
-    summarise(F1 = mean(F1, na.rm = TRUE),
+    summarise(F1 = mean(F1, na.rm = TRUE), # na.rm skips over any NA values
               F2 = mean(F2, na.rm = TRUE),
               F3 = mean(F3, na.rm = TRUE)) %>%
     group_by(vowel, IPA) %>%
-    # create a 3-sample rolling average
-    mutate(F1s = zoo::rollmean(F1, 3, na.pad = TRUE),
-           F2s = zoo::rollmean(F2, 3, na.pad = TRUE),
-           F3s = zoo::rollmean(F3, 3, na.pad = TRUE))
+    # create a 5-sample rolling average
+    # mutate is for adding new variables
+    mutate(F1s = zoo::rollmean(F1, 5, na.pad = TRUE), # na.pad adds the NAs back in to fit the original data frame.
+           F2s = zoo::rollmean(F2, 5, na.pad = TRUE),
+           F3s = zoo::rollmean(F3, 5, na.pad = TRUE))
 
 #================================================================#
 # Make another data frame of just the trajectory endpoints
