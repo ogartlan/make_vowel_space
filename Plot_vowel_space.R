@@ -112,7 +112,8 @@ df_endpt <- df_sum %>%
 px_v_space_smooth <- df_sum %>%
     dplyr::filter(time_index > 1, time_index < 10) %>%
     ggplot(.)+
-    aes(x = F2s, y = F1s, group = vowel, color = vowel)+
+    # removed the s from F2s and F1s below
+    aes(x = F2, y = F1, group = vowel, color = vowel)+
     # trajectory ** commented out for now
     #geom_path(linewidth = 1.1)+
     # IPA symbol encapsulated in a label
