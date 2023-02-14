@@ -98,14 +98,16 @@ df_endpt <- df_sum %>%
     group_by(vowel, IPA) %>%
     summarise(
         # F1s is ....
-        F1s = F1s[time_index == 5],
-        F2s = F2s[time_index == 5],
-        F3s = F3s[time_index == 5],
+        # ** If my phoneme segmentation is good (which I think it is) then why take only a certain time stamp.
+        # ** why not just stick with the means I got above?
+        # F1s = F1s[time_index == 5],
+        # F2s = F2s[time_index == 5],
+        # F3s = F3s[time_index == 5],
         #
         # F1 is ....
-        F1 = F1[time_index == 5],
-        F2 = F2[time_index == 5],
-        F3 = F3[time_index == 5])
+        # F1 = F1[time_index == 5],
+        # F2 = F2[time_index == 5],
+        # F3 = F3[time_index == 5])
 
 #================================================================#
 # Plot it!
