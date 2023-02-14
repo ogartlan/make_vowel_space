@@ -4,7 +4,7 @@ library(zoo)
 rm(list = ls())
 
 # set the path where your formant table lives
-setwd("C:\\4th_Year\\Final_Year_Project\\Background_Work")
+setwd("C:\\4th_Year\\Final_Year_Project\\my_voice")
 
 df <- read.csv("my_formants.Table", stringsAsFactors = FALSE) 
 
@@ -95,7 +95,12 @@ while (q <= num_rows/10){
 #plot(F1_avgs, F2_avgs)
 
 df1 <- data.frame(x = F1_avgs, y = F2_avgs)
-ggplot(df1, aes(x, y)) + geom_point()
+ggplot(df1, aes(x, y)) + 
+geom_point() +
+scale_x_reverse(position = "top", name = "F2 (Hz)")+
+scale_y_reverse(position = "right", name = "F1 (Hz)")+
+theme_bw()+
+theme(legend.position = "none")
 
 
 #================================================================#
@@ -161,4 +166,4 @@ ggplot(df1, aes(x, y)) + geom_point()
 # Save the plot
 #ggsave(px_v_space_smooth, file = "My_vowel_no_diph.png",
 #       height = 3.7, width = 4.8, dpi = 600)
-# End!
+#End!
