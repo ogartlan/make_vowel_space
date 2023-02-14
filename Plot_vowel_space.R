@@ -68,7 +68,7 @@ exclude_these_Vs <-
 # if you recorded multiple versions of the same vowel,
 # then average over them here
 df_sum <- df %>%
-    # Filters out vowels taht are in the "excluded" list
+    # Filters out vowels that are in the "excluded" list
     dplyr::filter(!vowel %in% exclude_these_Vs) %>% 
     # group rows by column values in the DataFrame. 
     # Because of the %>% above, the data frame is
@@ -77,13 +77,17 @@ df_sum <- df %>%
     summarise(F1 = mean(F1, na.rm = TRUE), # na.rm skips over any NA values
               F2 = mean(F2, na.rm = TRUE),
               F3 = mean(F3, na.rm = TRUE)) %>%
+    # now have a data frame called df_sum, grouped by vowel, IPA, and time_index
+    # It calculates the mean F1, 2, and 3 for each subgroup, creating a new data frame 
+    # called df_sum with columns vowel, IPA, time_index, and F1 through F3
     group_by(vowel, IPA) %>%
+    # now the data frame containing F1, F2, and F3 is grouped by vowel and IPA again.
     # create a 5-sample rolling average
     # mutate is for adding new variables
-    mutate(F1s = zoo::rollmean(F1, 5, na.pad = TRUE), # na.pad adds the NAs back in to fit the original data frame.
-           F2s = zoo::rollmean(F2, 5, na.pad = TRUE),
-           F3s = zoo::rollmean(F3, 5, na.pad = TRUE))
-
+    #mutate(F1s = zoo::rollmean(F1, 5, na.pad = TRUE), # na.pad adds the NAs back in to fit the original data frame.
+    #       F2s = zoo::rollmean(F2, 5, na.pad = TRUE),
+    #       F3s = zoo::rollmean(F3, 5, na.pad = TRUE))
+    # Going to try to comment the above out. Probably no need for a rolling average, regular average F1, F2, F3 is enough.
 #================================================================#
 # Make another data frame of just the trajectory endpoints
 # **In the original code, time_index == 9 in all cases below. 
