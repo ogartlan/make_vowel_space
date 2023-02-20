@@ -1,13 +1,13 @@
 library(dplyr)
 library(ggplot2)
-
+library(readr)
 library(zoo)
 
 
 # set the path where your formant table lives
 setwd("C:\\4th_Year\\Final_Year_Project\\my_voice")
 
-df <- read.csv("my_formants.Table", stringsAsFactors = FALSE) 
+df <- read.csv("my_formants_cleaned.Table", stringsAsFactors = FALSE) 
 
 
 #--------------------------------------------------------------------#
@@ -44,6 +44,11 @@ df <- read.csv("my_formants.Table", stringsAsFactors = FALSE)
 # 12     ei          4  0.073    2.048  367 2352 3257
 #
 # ... with each vowel having ten timepoints instead of four. 
+
+#ggplot(df, aes(x = column1, y = column2)) +
+#  geom_point()
+
+
 
 #================================================================#
 # https://en.wikipedia.org/wiki/Phonetic_symbols_in_Unicode#Vowels
@@ -86,7 +91,7 @@ exclude_these_Vs <-
     c("cr","er","ar","xx","ai","ait","oi","oh","au","ei")
 #================================================================#
 #df_sum <- df %>%
-df
+#df
       #dplyr::filter(!vowel %in% exclude_these_Vs) %>% 
       #group_by(vowel, IPA, time_index) %>%
 
@@ -94,11 +99,14 @@ px_v_space_smooth <-df%>%   # df_sum %>%
   ggplot(.)+
   #data = vowels, 
   aes(x = F2, y = F1, color = vowel, label = IPA) + 
-  geom_text() +
+  geom_text(size = 3) +
   scale_y_reverse(position = "right") + 
   scale_x_reverse(position = "top") +
   geom_density_2d() +
   theme(legend.position = "none") +
   theme_classic()
-  
-  
+px_v_space_smooth
+
+# Save the plot
+ggsave(px_v_space_smooth, file = "My_accent_r.png",
+       height = 3.7, width = 4.8, dpi = 600)
