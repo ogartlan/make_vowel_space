@@ -74,7 +74,7 @@ vowel_lookup =
       `aer` = "\u00E6r",       # marry
       `cr` = "\u0254r",        # more
       `ar` = "\u0251r",        # far
-      `oi` = "\u0254\u026A"    # joy
+      `oi` = "\u0254\u026A",   # joy
       `ax` = "\u0259\u02De"    # bird (r-coloured schwa)
     )
 
@@ -89,7 +89,7 @@ exclude_these_Vs <- as.character("")
 
 # for most vowel plots, I want to leave these out. 
 exclude_these_Vs <- 
-    c("cr","er","ar","xx","ai","ait","oi","oh","au","ei")
+    c("cr","ar","xx","ai","ait","oi","oh","au","ei")
 #================================================================#
 #df_sum <- df %>%
 #df
