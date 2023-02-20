@@ -5,9 +5,9 @@ library(zoo)
 
 
 # set the path where your formant table lives
-setwd("C:\\4th_Year\\Final_Year_Project\\my_voice")
+setwd("C:\\4th_Year\\Final_Year_Project\\accent_plots_r")
 
-df <- read.csv("my_formants_cleaned.Table", stringsAsFactors = FALSE) 
+df <- read.csv("my_formants_feb_cleaned.Table", stringsAsFactors = FALSE) 
 
 
 #--------------------------------------------------------------------#
@@ -105,9 +105,11 @@ px_v_space_smooth <-df%>%   # df_sum %>%
   scale_x_reverse(position = "top") +
   geom_density_2d() +
   theme(legend.position = "none") +
-  theme_classic()
+  theme_classic() #+
+  #xlim(0, 1400) +
+  #ylim(500, 4000)
 px_v_space_smooth
 
 # Save the plot
-ggsave(px_v_space_smooth, file = "My_accent_r.png",
+ggsave(px_v_space_smooth, file = "My_accent_r_cleaned.png",
        height = 3.7, width = 4.8, dpi = 600)
