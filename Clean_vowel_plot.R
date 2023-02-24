@@ -52,30 +52,26 @@ df <- read.csv("my_formants_feb_cleaned.Table", stringsAsFactors = FALSE)
 
 #================================================================#
 # https://en.wikipedia.org/wiki/Phonetic_symbols_in_Unicode#Vowels
-vowel_lookup = 
-    c(`ae` = "\u00E6",         # cat
-      `ah` = "\u0251",         # cot
-      `aw` = "\u0254",         # caught
-      `ai` = "\u0251\u026A",   # ride
-      `ait` = "\u0251\u026At", # right
-      `au` = "a\u028A",        # cloud
-      `eh` = "\u025B",         # bet
-      `ei` = "e\u026A",        # rate
-      `ih` = "\u026A",         # bit
-      `ii` = "i",              # beat
-      `oh` = "o\u028A",        # boat
-      `oo` = "\u028A",         # cook
-      `uh` = "\u028C",         # cut
-      `uu` = "u",              # tooth
-      `xx` = "\u0259",         # a(head)
-      `er` = "\u025D",         # bird
-      `eir` = "e\u026Ar",      # mary
-      `ehr` = "\u025Br",       # merry
-      `aer` = "\u00E6r",       # marry
-      `cr` = "\u0254r",        # more
-      `ar` = "\u0251r",        # far
-      `oi` = "\u0254\u026A",   # joy
-      `ax` = "\u0259\u02De"    # bird (r-coloured schwa)
+vowel_lookup =
+    c(`aa` = "\u0251",         # bot        ɑ-ɒ
+      `ae` = "\u00E6",         # bat        æ
+      `ah` = "\u028C",         # butt       ʌ
+      `ao` = "\u0254",         # caught     ɔ
+      `aw` = "\u0061\u028A",   # bout       aʊ
+      `ax` = "\u0259",         # comma      ə
+      `axr` = "\u0259\U02DE",  # letter     ɚ
+      `ay` = "\u0061\u026A",   # bite       aɪ
+      `eh` = "\u025B",         # bet        ɛ
+      `er` = "\U025C\U02DE",   # bird       ɝ
+      `ey` = "\u0065\u026A",   # bait       eɪ
+      `ih` = "\u026A",         # bit        ɪ
+      `ix` = "\u0268",         # rabbit     ɨ
+      `iy` = "\u0069",         # beat       i
+      `ow` = "\u006F\u028A",   # boat       oʊ
+      `oy` = "\u0254\u026A",   # boy        ɔɪ
+      `uh` = "\u028A",         # book       ʊ
+      `uw` = "\u0075",         # boot       u
+      `ux` = "\u0289r"         # dude       ʉ
     )
 
 #================================================================#
