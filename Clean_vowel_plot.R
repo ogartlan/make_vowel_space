@@ -53,25 +53,25 @@ df <- read.csv("my_formants_feb_cleaned.Table", stringsAsFactors = FALSE)
 #================================================================#
 # https://en.wikipedia.org/wiki/Phonetic_symbols_in_Unicode#Vowels
 vowel_lookup =
-    c(`aa` = "\u0251",         # bot        ɑ-ɒ
-      `ae` = "\u00E6",         # bat        æ
-      `ah` = "\u028C",         # butt       ʌ
-      `ao` = "\u0254",         # caught     ɔ
-      `aw` = "\u0061\u028A",   # bout       aʊ
-      `ax` = "\u0259",         # comma      ə
-      `axr` = "\u0259\U02DE",  # letter     ɚ
-      `ay` = "\u0061\u026A",   # bite       aɪ
-      `eh` = "\u025B",         # bet        ɛ
-      `er` = "\U025C\U02DE",   # bird       ɝ
-      `ey` = "\u0065\u026A",   # bait       eɪ
-      `ih` = "\u026A",         # bit        ɪ
-      `ix` = "\u0268",         # rabbit     ɨ
-      `iy` = "\u0069",         # beat       i
-      `ow` = "\u006F\u028A",   # boat       oʊ
-      `oy` = "\u0254\u026A",   # boy        ɔɪ
-      `uh` = "\u028A",         # book       ʊ
-      `uw` = "\u0075",         # boot       u
-      `ux` = "\u0289r"         # dude       ʉ
+    c(`aa\\d?` = "\u0251",         # bot        ɑ-ɒ
+      `ae\\d?` = "\u00E6",         # bat        æ
+      `ah\\d?` = "\u028C",         # butt       ʌ
+      `ao\\d?` = "\u0254",         # caught     ɔ
+      `aw\\d?` = "\u0061\u028A",   # bout       aʊ
+      `ax\\d?` = "\u0259",         # comma      ə
+      `axr\\d?` = "\u0259\U02DE",  # letter     ɚ
+      `ay\\d?` = "\u0061\u026A",   # bite       aɪ
+      `eh\\d?` = "\u025B",         # bet        ɛ
+      `er\\d?` = "\U025C\U02DE",   # bird       ɝ
+      `ey\\d?` = "\u0065\u026A",   # bait       eɪ
+      `ih\\d?` = "\u026A",         # bit        ɪ
+      `ix\\d?` = "\u0268",         # rabbit     ɨ
+      `iy\\d?` = "\u0069",         # beat       i
+      `ow\\d?` = "\u006F\u028A",   # boat       oʊ
+      `oy\\d?` = "\u0254\u026A",   # boy        ɔɪ
+      `uh\\d?` = "\u028A",         # book       ʊ
+      `uw\\d?` = "\u0075",         # boot       u
+      `ux\\d?` = "\u0289r"         # dude       ʉ
     )
 
 #================================================================#
