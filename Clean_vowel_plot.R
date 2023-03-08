@@ -7,8 +7,17 @@ library(zoo)
 # set the path where your formant table lives
 setwd("C:\\4th_Year\\Final_Year_Project\\accent_plots_r")
 
-df <- read.csv("my_formants_feb_cleaned.Table", stringsAsFactors = FALSE) 
-
+#df <- read.csv("my_formants_feb_cleaned.Table", stringsAsFactors = FALSE) 
+#FUNCTION - reads in all files from a given directory that end in ".TABLE" and combines them into one data frame - "df"
+combine_tables <- function(directory, pattern, header=TRUE) {
+  # Get a list of all files matching the specified pattern in the directory
+  file_list <- list.files(directory, pattern=".table", full.names=TRUE)
+  
+  # Read in each file as a data frame and combine them using rbind
+  df <- do.call(rbind, lapply(file_list, read.table, header=header))
+  
+  return(df)
+}
 
 #--------------------------------------------------------------------#
 #set.seed(10)
