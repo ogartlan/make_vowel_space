@@ -24,13 +24,13 @@
 #
 # Name of the Textgrid file that you annotated
 # (should also be the name of the Formant object)
-	name$ = "MW_vowels"
+	name$ = "G00007S1001"
 
 # How many timepoints?
 	num_timepoints = 10
 
 # Which tier are your annotations?
-	v_tier = 1
+	v_tier = 2
 
 # Make the table
 	Create Table with column names: "formants", 0, "vowel time_index v_time time_abs F1 F2 F3"
@@ -45,8 +45,8 @@
 	select TextGrid 'name$'
 	label$ = Get label of interval: v_tier, interval_index
 
-	# proceed if the label isn't empty
-	if label$ <> ""
+	# proceed if the label contains a vowel (here denoted by starting with a vowel and having at least one thing after it)
+	if index_regex(label$, "^[AEIOU]+")
 		t_start = Get start time of interval: 1, interval_index
 		t_end = Get end time of interval: 1, interval_index
 		time_interval = (t_end - t_start)/(num_timepoints-1)
