@@ -25,8 +25,19 @@
 # Name of the Textgrid file that you annotated
 # (should also be the name of the Formant object)
 	name$ = "G00007S1001"
+	
+# Get the names of the currently selected objects
+selectedObjects = selected()
 
-# How many timepoints?
+# Loop through each selected object and perform the desired operations
+for objIndex from 1 to length(selectedObjects)
+    # Check if the selected object is a formant object
+    if selected("Formant", objIndex)
+        # Get the formant object
+        formant = selected("Formant", objIndex)
+
+        # Perform your desired operations on the formant object here
+        # How many timepoints?
 	num_timepoints = 10
 
 # Which tier are your annotations?
@@ -90,6 +101,13 @@
 
 	# end conditional if label isn't blank
 	endif
+
+
+        # Update the formant object name to indicate that it has been modified
+        Set name: formant, Get name(formant) + "_modified"
+    endif
+next
+
 
    # end loop through the intervals
    endfor
