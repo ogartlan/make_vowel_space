@@ -112,12 +112,22 @@ exclude_these_Vs <- as.character("")
 exclude_these_Vs <- 
     c("AW","AY","OY")
 #================================================================#
+### ONLY TAKING THE FIRST N INSTANCES OF EACH VOWEL 
 #df_sum <- df %>%
 #df
       #dplyr::filter(!vowel %in% exclude_these_Vs) %>% 
       #group_by(vowel, IPA, time_index) %>%
 
-px_v_space_smooth <-df%>%   # df_sum %>%
+# set the number of instances to subset for each vowel type
+n <- 100
+
+# subset the first n instances of every vowel type
+df_subset <- df %>% 
+  group_by(vowel) %>% 
+  slice(seq_len(n))
+#================================================================#
+
+px_v_space_smooth <-df_subset%>%   # df_sum %>%
   ggplot(.)+
   #data = vowels, 
   aes(x = F2, y = F1, color = vowel, label = IPA) + 
