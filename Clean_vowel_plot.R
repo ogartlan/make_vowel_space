@@ -148,14 +148,14 @@ n <- 100
 
 # subset the first n instances of every vowel type
 df_subset <- df %>% 
-  group_by(vowel) %>% 
+  group_by(IPA) %>% 
   slice(seq_len(n))
 #================================================================#
 
 px_v_space_smooth <-df_subset%>%   # df_sum %>%
   ggplot(.)+
   #data = vowels, 
-  aes(x = F2, y = F1, color = vowel, label = IPA) + 
+  aes(x = F2, y = F1, color = IPA, label = IPA) + 
   geom_text(size = 3) +
   scale_y_reverse(position = "right") + 
   scale_x_reverse(position = "top") +
