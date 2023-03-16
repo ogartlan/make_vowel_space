@@ -5,19 +5,9 @@ library(zoo)
 
 
 # set the path where your formant table lives
-setwd("C:\\4th_Year\\Final_Year_Project\\accent_plots_r")
+setwd("D:\\FYP\\Automation")
 
-#df <- read.csv("my_formants_feb_cleaned.Table", stringsAsFactors = FALSE) 
-#FUNCTION - reads in all files from a given directory that end in ".TABLE" and combines them into one data frame - "df"
-combine_tables <- function(directory, pattern, header=TRUE) {
-  # Get a list of all files matching the specified pattern in the directory
-  file_list <- list.files(directory, pattern=".table", full.names=TRUE)
-  
-  # Read in each file as a data frame and combine them using rbind
-  df <- do.call(rbind, lapply(file_list, read.table, header=header))
-  
-  return(df)
-}
+df <- read.csv("formants_G00007S1001.Table", stringsAsFactors = FALSE) 
 
 #--------------------------------------------------------------------#
 #set.seed(10)
@@ -62,25 +52,51 @@ combine_tables <- function(directory, pattern, header=TRUE) {
 #================================================================#
 # https://en.wikipedia.org/wiki/Phonetic_symbols_in_Unicode#Vowels
 vowel_lookup =
-    c(`aa\\d?` = "\u0251",         # bot        ɑ-ɒ
-      `ae\\d?` = "\u00E6",         # bat        æ
-      `ah\\d?` = "\u028C",         # butt       ʌ
-      `ao\\d?` = "\u0254",         # caught     ɔ
-      `aw\\d?` = "\u0061\u028A",   # bout       aʊ
-      `ax\\d?` = "\u0259",         # comma      ə
-      `axr\\d?` = "\u0259\U02DE",  # letter     ɚ
-      `ay\\d?` = "\u0061\u026A",   # bite       aɪ
-      `eh\\d?` = "\u025B",         # bet        ɛ
-      `er\\d?` = "\U025C\U02DE",   # bird       ɝ
-      `ey\\d?` = "\u0065\u026A",   # bait       eɪ
-      `ih\\d?` = "\u026A",         # bit        ɪ
-      `ix\\d?` = "\u0268",         # rabbit     ɨ
-      `iy\\d?` = "\u0069",         # beat       i
-      `ow\\d?` = "\u006F\u028A",   # boat       oʊ
-      `oy\\d?` = "\u0254\u026A",   # boy        ɔɪ
-      `uh\\d?` = "\u028A",         # book       ʊ
-      `uw\\d?` = "\u0075",         # boot       u
-      `ux\\d?` = "\u0289r"         # dude       ʉ
+    c(`AA0` = "\u0251",         # bot        ɑ-ɒ
+      `AA1` = "\u0251",         # bot        ɑ-ɒ
+      `AA2` = "\u0251",         # bot        ɑ-ɒ
+      `AE0` = "\u00E6",         # bat        æ
+      `AE1` = "\u00E6",         # bat        æ
+      `AE2` = "\u00E6",         # bat        æ
+      `AH0` = "\u0259",         # butt       ʌ schwa
+      `AH1` = "\u0259",         # butt       ʌ schwa
+      `AH2` = "\u0259",         # butt       ʌ schwa
+      `AO0` = "\u0254",         # caught     ɔ
+      `AO1` = "\u0254",         # caught     ɔ
+      `AO2` = "\u0254",         # caught     ɔ
+      `AW0` = "\u0061\u028A",   # bout       aʊ
+      `AW1` = "\u0061\u028A",   # bout       aʊ
+      `AW2` = "\u0061\u028A",   # bout       aʊ
+      `AY0` = "\u0061\u026A",   # bite       aɪ
+      `AY1` = "\u0061\u026A",   # bite       aɪ
+      `AY2` = "\u0061\u026A",   # bite       aɪ
+      `EH0` = "\u025B",         # bet        ɛ
+      `EH1` = "\u025B",         # bet        ɛ
+      `EH2` = "\u025B",         # bet        ɛ
+      `ER0` = "\U025C\U02DE",   # bird       ɝ
+      `ER1` = "\U025C\U02DE",   # bird       ɝ
+      `ER2` = "\U025C\U02DE",   # bird       ɝ
+      `EY0` = "\u0065",         # bait       e
+      `EY1` = "\u0065",         # bait       e
+      `EY2` = "\u0065",         # bait       e
+      `IH0` = "\u026A",         # bit        ɪ
+      `IH1` = "\u026A",         # bit        ɪ
+      `IH2` = "\u026A",         # bit        ɪ
+      `IY0` = "\u0069",         # beat       i
+      `IY1` = "\u0069",         # beat       i
+      `IY2` = "\u0069",         # beat       i
+      `OW0` = "\u006F",         # boat       o
+      `OW1` = "\u006F",         # boat       o
+      `OW2` = "\u006F",         # boat       o
+      `OY0` = "\u0254\u026A",   # boy        ɔɪ
+      `OY1` = "\u0254\u026A",   # boy        ɔɪ
+      `OY2` = "\u0254\u026A",   # boy        ɔɪ
+      `UH0` = "\u028A",         # book       ʊ
+      `UH1` = "\u028A",         # book       ʊ
+      `UH2` = "\u028A",         # book       ʊ
+      `UW0` = "\u0075",         # boot       u
+      `UW1` = "\u0075",         # boot       u
+      `UW2` = "\u0075"          # boot       u
     )
 
 #================================================================#
@@ -94,7 +110,7 @@ exclude_these_Vs <- as.character("")
 
 # for most vowel plots, I want to leave these out. 
 exclude_these_Vs <- 
-    c("cr","ar","xx","ai","ait","oi","oh","au","ei")
+    c("AW","AY","OY")
 #================================================================#
 #df_sum <- df %>%
 #df
@@ -108,7 +124,7 @@ px_v_space_smooth <-df%>%   # df_sum %>%
   geom_text(size = 3) +
   scale_y_reverse(position = "right") + 
   scale_x_reverse(position = "top") +
-  geom_density_2d() +
+  # geom_density_2d() +
   theme(legend.position = "none") +
   theme_classic() #+
   #xlim(0, 1400) +
@@ -116,5 +132,5 @@ px_v_space_smooth <-df%>%   # df_sum %>%
 px_v_space_smooth
 
 # Save the plot
-ggsave(px_v_space_smooth, file = "My_accent_r_cleaned.png",
+ggsave(px_v_space_smooth, file = "test_001.png",
        height = 3.7, width = 4.8, dpi = 600)
