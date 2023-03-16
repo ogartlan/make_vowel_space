@@ -7,7 +7,32 @@ library(zoo)
 # set the path where your formant table lives
 setwd("D:\\FYP\\Automation")
 
-df <- read.csv("formants_G00007S1001.Table", stringsAsFactors = FALSE) 
+#df <- read.csv("formants_G00007S1001.Table", stringsAsFactors = FALSE) 
+#FUNCTION - reads in all files from a given directory that end in ".TABLE" and combines them into one data frame - "df"
+#directory <- "D:\\FYP\\Automation"
+
+df <- data.frame(vowel = character(),
+                 time_index = numeric(),
+                 v_time = numeric(),
+                 time_abs = numeric(),
+                 F1 = numeric(),
+                 F2 = numeric(),
+                 F3 = numeric(),
+                 stringsAsFactors = FALSE)
+
+# get a list of all .Table files in the directory
+file_list <- list.files(pattern = "\\.Table$")
+
+# loop over each file and read it in using read.csv
+for (file in file_list) {
+  # construct the file path
+  file_path <- file.path(getwd(), file)
+  
+  # read in the file using read.csv
+  df1 <- read.csv(file_path, stringsAsFactors = FALSE)
+  
+  df <- rbind(df, df1)
+}
 
 #--------------------------------------------------------------------#
 #set.seed(10)
@@ -142,5 +167,5 @@ px_v_space_smooth <-df_subset%>%   # df_sum %>%
 px_v_space_smooth
 
 # Save the plot
-ggsave(px_v_space_smooth, file = "test_001.png",
+ggsave(px_v_space_smooth, file = "test_combo.png",
        height = 3.7, width = 4.8, dpi = 600)
