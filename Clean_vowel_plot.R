@@ -174,10 +174,14 @@
   while (i <= (nrow(df) / 10)) {
 
     #subset_within_10percent(df, total_time_index, i)
+  
+    value_at_4 <- df$F1[df$total_time_index == (4 + (10 * i))]
     value_at_5 <- df$F1[df$total_time_index == (5 + (10 * i))]
-    print(value_at_5)
+    value_at_6 <- df$F1[df$total_time_index == (6 + (10 * i))]
+    steady_value <- (value_at_4 + value_at_5 + value_at_6) / 3
+    print(steady_value)
     # Subset data for the current vowel and within 10% of value_at_5
-    temp_df <- subset(df, total_time_index >= (1 + (10*i)) & total_time_index <= (10 + (10*i)) & F1 >= value_at_5*0.9 & F1 <= value_at_5*1.1)
+    temp_df <- subset(df, total_time_index >= (1 + (10*i)) & total_time_index <= (10 + (10*i)) & F1 >= steady_value*0.9 & F1 <= steady_value*1.1)
 
     # add the subsetted rows to the steady state dataframe
     steady_state_df <- rbind(steady_state_df, temp_df)
