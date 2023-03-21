@@ -169,13 +169,62 @@
   #  print("function done")
   #}
 
+  medians_only_df <- data.frame(IPA = character(),
+                   F1 = numeric(),
+                   F2 = numeric(),
+                   stringsAsFactors = FALSE)
+
+#  master_medians_df <- data.frame(IPA = character(),
+#                   F1 = numeric(),
+#                   F2 = numeric(),
+#                   stringsAsFactors = FALSE)
+
+  plotting_medians_df <- data.frame(IPA = character(),
+                   F1 = numeric(),
+                   F2 = numeric(),
+                   stringsAsFactors = FALSE)
 
   i <- 0
   while (i <= (nrow(df) / 10)) {
-    median_df <- df[(1 + (10*i)):(10 + (10*i)), ]
+    #NOT USING THE FIRST AND LAST 2 TIMESTAMPS AS THESE ARE UNLIKELY TO BE STEADY STATE
+    median_df <- df[(3 + (10*i)):(8 + (10*i)), ]
     median_df <- arrange(median_df, F1)
-    median <- median_df[5, "F1"]
-    median_3 <- (median_df[4, "F1"] + median_df[5, "F1"] + median_df[6, "F1"]) / 3
+    median_F1 <- (median_df[3, "F1"] + median_df[4, "F1"]) / 2
+    median_df <- arrange(median_df, F2)
+    median_F2 <- (median_df[3, "F2"] + median_df[4, "F2"]) / 2
+    #median_F2 <- median(subset(median_
+    
+    temp_df <- data.frame()
+    temp_df <- rbind(temp_df, df[3 + (10*i), ])
+    temp_df[1, 5] <- median_F1
+    temp_df[1, 6] <- median_F2
+    master_medians_df[i,] <- rbind(master_medians_df, temp_df)
+    
+    
+    #medians_only_df[i,] <- subset(median_df, select = c("IPA", "F1", "F2"))[1,]
+    #medians_only_df <- rbind(medians_only_df, temp_median_df)
+    
+    # plotting_medians_df contains only the medians of medians for F1 and F2 values, and the IPA. i.e. the median F1 and F2 over an entire corpus
+        
+    # plotting_medians_df <- 
+    
+    med_F1_AA <- median(subset(medians_only_df, IPA == "\u0251")$F1)
+    med_F1_AE <- median(subset(medians_only_df, IPA == "\u0251")$F1)
+    med_F1_AH <- median(subset(medians_only_df, IPA == "\u0251")$F1)
+    med_F1_AO <- median(subset(medians_only_df, IPA == "\u0251")$F1)
+    med_F1_AW <- median(subset(medians_only_df, IPA == "\u0251")$F1)
+    med_F1_AY <- median(subset(medians_only_df, IPA == "\u0251")$F1)
+    med_F1_EH <- median(subset(medians_only_df, IPA == "\u0251")$F1)
+    med_F1_ER <- median(subset(medians_only_df, IPA == "\u0251")$F1)
+    med_F1_EY <- median(subset(medians_only_df, IPA == "\u0251")$F1)
+    med_F1_IH <- median(subset(medians_only_df, IPA == "\u0251")$F1)
+    med_F1_IY <- median(subset(medians_only_df, IPA == "\u0251")$F1)
+    med_F1_OW <- median(subset(medians_only_df, IPA == "\u0251")$F1)
+    med_F1_OY <- median(subset(medians_only_df, IPA == "\u0251")$F1)
+    med_F1_UH <- median(subset(medians_only_df, IPA == "\u0251")$F1)
+    med_F1_UW <- median(subset(medians_only_df, IPA == "\u0251")$F1)
+    
+    med_med_f1 <- median(medians_only_df$F1)
     
     #subset_within_10percent(df, total_time_index, i)
   
@@ -185,9 +234,8 @@
     #steady_value <- (value_at_4 + value_at_5 + value_at_6) / 3
     #print(steady_value)
     print(median)
-    print(median_3)
     # Subset data for the current vowel and within 10% of value_at_5
-    temp_df <- subset(df, total_time_index >= (1 + (10*i)) & total_time_index <= (10 + (10*i)) & F1 >= median_3*0.9 & F1 <= median_3*1.1)
+    temp_df <- subset(df, total_time_index >= (3 + (10*i)) & total_time_index <= (8 + (10*i)) & F1 >= median*0.9 & F1 <= median*1.1)
 
     # add the subsetted rows to the steady state dataframe
     steady_state_df <- rbind(steady_state_df, temp_df)
@@ -196,6 +244,16 @@
     print(i)
   }
 
+ IPA_list <- c("\u0251", "\u00E6", "\u0259", "\u0254", "\u0061\u028A", "\u0061\u026A", "\u025B", "\U025C\U02DE", "\u0065", "\u026A", "\u0069", "\u006F", "\u0254\u026A", "\u028A", "\u0075")
+
+ m <- 1
+ while (m <= (length(IPA_list) / 10)) {
+    plotting_medians_df[m,1] <- IPA_list[m]
+    plotting_medians_df[m,2] <- median(subset(master_medians_df, IPA == IPA_list[m])$F1)
+    plotting_medians_df[m,3] <- median(subset(master_medians_df, IPA == IPA_list[m])$F2)
+    
+    m <- m + 1
+ }
 
   #================================================================#
   ### ONLY TAKING THE FIRST N INSTANCES OF EACH VOWEL 
