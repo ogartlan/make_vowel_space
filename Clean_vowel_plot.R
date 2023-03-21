@@ -5,11 +5,11 @@
 
 
   # set the path where your formant table lives
-  setwd("D:\\FYP\\Automation")
+  setwd("D:\\FYP\\spanish_output")
 
   #df <- read.csv("formants_G00007S1001.Table", stringsAsFactors = FALSE) 
   #FUNCTION - reads in all files from a given directory that end in ".TABLE" and combines them into one data frame - "df"
-  #directory <- "D:\\FYP\\Automation"
+  #directory <- "D:\\FYP\\spanish_output"
 
   df <- data.frame(vowel = character(),
                    time_index = numeric(),
@@ -174,10 +174,12 @@
                    F2 = numeric(),
                    stringsAsFactors = FALSE)
 
-#  master_medians_df <- data.frame(IPA = character(),
-#                   F1 = numeric(),
-#                   F2 = numeric(),
-#                   stringsAsFactors = FALSE)
+  #master_medians_df <- data.frame(IPA = character(),
+  #                 F1 = numeric(),
+  #                 F2 = numeric(),
+  #                 stringsAsFactors = FALSE)
+
+  master_medians_df = df[FALSE,]
 
   plotting_medians_df <- data.frame(IPA = character(),
                    F1 = numeric(),
@@ -188,6 +190,8 @@
   while (i <= (nrow(df) / 10)) {
     #NOT USING THE FIRST AND LAST 2 TIMESTAMPS AS THESE ARE UNLIKELY TO BE STEADY STATE
     median_df <- df[(3 + (10*i)):(8 + (10*i)), ]
+    #print("3rd plus 10i of df now: ")
+    #print(df[3 + (10*i)])
     median_df <- arrange(median_df, F1)
     median_F1 <- (median_df[3, "F1"] + median_df[4, "F1"]) / 2
     median_df <- arrange(median_df, F2)
@@ -196,63 +200,38 @@
     
     temp_df <- data.frame()
     temp_df <- rbind(temp_df, df[3 + (10*i), ])
+    #print("first")
+    #print(temp_df)
     temp_df[1, 5] <- median_F1
     temp_df[1, 6] <- median_F2
-    master_medians_df[i,] <- rbind(master_medians_df, temp_df)
-    
-    
-    #medians_only_df[i,] <- subset(median_df, select = c("IPA", "F1", "F2"))[1,]
-    #medians_only_df <- rbind(medians_only_df, temp_median_df)
-    
-    # plotting_medians_df contains only the medians of medians for F1 and F2 values, and the IPA. i.e. the median F1 and F2 over an entire corpus
-        
-    # plotting_medians_df <- 
-    
-    med_F1_AA <- median(subset(medians_only_df, IPA == "\u0251")$F1)
-    med_F1_AE <- median(subset(medians_only_df, IPA == "\u0251")$F1)
-    med_F1_AH <- median(subset(medians_only_df, IPA == "\u0251")$F1)
-    med_F1_AO <- median(subset(medians_only_df, IPA == "\u0251")$F1)
-    med_F1_AW <- median(subset(medians_only_df, IPA == "\u0251")$F1)
-    med_F1_AY <- median(subset(medians_only_df, IPA == "\u0251")$F1)
-    med_F1_EH <- median(subset(medians_only_df, IPA == "\u0251")$F1)
-    med_F1_ER <- median(subset(medians_only_df, IPA == "\u0251")$F1)
-    med_F1_EY <- median(subset(medians_only_df, IPA == "\u0251")$F1)
-    med_F1_IH <- median(subset(medians_only_df, IPA == "\u0251")$F1)
-    med_F1_IY <- median(subset(medians_only_df, IPA == "\u0251")$F1)
-    med_F1_OW <- median(subset(medians_only_df, IPA == "\u0251")$F1)
-    med_F1_OY <- median(subset(medians_only_df, IPA == "\u0251")$F1)
-    med_F1_UH <- median(subset(medians_only_df, IPA == "\u0251")$F1)
-    med_F1_UW <- median(subset(medians_only_df, IPA == "\u0251")$F1)
-    
-    med_med_f1 <- median(medians_only_df$F1)
-    
-    #subset_within_10percent(df, total_time_index, i)
-  
-    #value_at_4 <- df$F1[df$total_time_index == (4 + (10 * i))]
-    #value_at_5 <- df$F1[df$total_time_index == (5 + (10 * i))]
-    #value_at_6 <- df$F1[df$total_time_index == (6 + (10 * i))]
-    #steady_value <- (value_at_4 + value_at_5 + value_at_6) / 3
-    #print(steady_value)
-    print(median)
-    # Subset data for the current vowel and within 10% of value_at_5
-    temp_df <- subset(df, total_time_index >= (3 + (10*i)) & total_time_index <= (8 + (10*i)) & F1 >= median*0.9 & F1 <= median*1.1)
-
-    # add the subsetted rows to the steady state dataframe
-    steady_state_df <- rbind(steady_state_df, temp_df)
-    print("function used")
+    #print("then")
+    #print(temp_df)
+    master_medians_df <- rbind(master_medians_df, temp_df)
+    print(master_medians_df)
+    #print("F1")
+    #print(median_F1)
+    #print("F2")
+    #print(median_F2)
+    #print(master_medians_df)
     i <- i + 1
-    print(i)
+    #print(i)
   }
 
- IPA_list <- c("\u0251", "\u00E6", "\u0259", "\u0254", "\u0061\u028A", "\u0061\u026A", "\u025B", "\U025C\U02DE", "\u0065", "\u026A", "\u0069", "\u006F", "\u0254\u026A", "\u028A", "\u0075")
+  
 
- m <- 1
- while (m <= (length(IPA_list) / 10)) {
+  IPA_list <- c("\u0251", "\u00E6", "\u0259", "\u0254", "\u0061\u028A", "\u0061\u026A", "\u025B", "\U025C\U02DE", "\u0065", "\u026A", "\u0069", "\u006F", "\u0254\u026A", "\u028A", "\u0075")
+  
+  m <- 1
+  
+ while (m <= length(IPA_list)) {
     plotting_medians_df[m,1] <- IPA_list[m]
     plotting_medians_df[m,2] <- median(subset(master_medians_df, IPA == IPA_list[m])$F1)
     plotting_medians_df[m,3] <- median(subset(master_medians_df, IPA == IPA_list[m])$F2)
     
+    #print(IPA_list[m])
+    #print(plotting_medians_df[m, 2])
     m <- m + 1
+    
  }
 
   #================================================================#
@@ -271,7 +250,7 @@
     slice(seq_len(n))
   #================================================================#
 
-  px_v_space_smooth <-df_subset%>%   # df_sum %>%
+  px_v_space_smooth <- master_medians_df%>%   # df_sum %>%
     ggplot(.)+
     #data = vowels, 
     aes(x = F2, y = F1, color = IPA, label = IPA) + 
@@ -286,5 +265,5 @@
   px_v_space_smooth
 
   # Save the plot
-  ggsave(px_v_space_smooth, file = "test_steady_01.jpg",
+  ggsave(px_v_space_smooth, file = all_medians_spanish.jpg",
          height = 3.7, width = 4.8, dpi = 600)
