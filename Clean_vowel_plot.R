@@ -250,7 +250,7 @@
     slice(seq_len(n))
   #================================================================#
 
-  px_v_space_smooth <- master_medians_df%>%   # df_sum %>%
+  px_v_space_smooth <- plotting_medians_df%>%   # df_sum %>%
     ggplot(.)+
     #data = vowels, 
     aes(x = F2, y = F1, color = IPA, label = IPA) + 
