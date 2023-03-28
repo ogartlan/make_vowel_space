@@ -1,23 +1,9 @@
-# Define path to folder containing sound files
-dir$ = "D:\FYP\Automation\test_data"
-
-# Get list of files in directory
-fileList = Create Strings as file list: dir$, "*.wav"
-
-# Loop through the WAV files and do something with each one
-for file$ in fileList
-    # Get the file path from the file list
-    #file$ = Get string: fileIndex
-
-    # Read in sound file
-    sound = Read from file: file$
-
-    # Apply the Burg algorithm to extract formants
-    formants = To Formant (Burg): 0, 3, 3000, 0.04, 50
-
-    # Create a formant object from the extracted formants
-    formant_obj = Make Formant Object: "Formants for "+file, "Burg algorithm", sound, formants
-
-    # Save the formant object as a text file
-    Write to text file: dir$+"/"+Extract name from file path: file+".TextGrid", formant_obj
+folder$ = "D:\FYP\Automation\test_data"
+strings = Create Strings as file list: "list", folder$ + "/*.wav"
+numberOfFiles = Get number of strings
+for ifile to numberOfFiles
+   selectObject: strings
+   fileName$ = Get string: ifile
+   Read from file: folder$ + "/" + fileName$
+   To Formant (burg)... 0 3 3000 0.04 50
 endfor
