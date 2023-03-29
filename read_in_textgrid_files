@@ -1,0 +1,8 @@
+folder$ = "D:\FYP\Automation\G00007_aligned"
+strings = Create Strings as file list: "list", folder$ + "/*.textgrid"
+numberOfFiles = Get number of strings
+for ifile to numberOfFiles
+   selectObject: strings
+   fileName$ = Get string: ifile
+   Read from file: folder$ + "/" + fileName$
+endfor
