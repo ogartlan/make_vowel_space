@@ -1,0 +1,21 @@
+#READS IN SOUND FILES AND MAKES FORMANT OBJECTS
+folder$ = "D:\FYP\Automation\test_data"
+
+strings = Create Strings as file list: "list", folder$ + "/*.wav"
+
+numberOfFiles = Get number of strings
+
+
+for ifile to numberOfFiles
+	selectObject: strings
+
+	fileName$ = Get string: ifile
+
+	Read from file: folder$ + "/" + fileName$
+	To Formant (burg)... 0 3 3000 0.04 50
+	#select Sound 'fileName$'
+	#select Sound 'fileName$'
+
+	#To Formant (burg)... 0 3 3000 0.04 50
+
+endfor
