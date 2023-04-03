@@ -1,9 +1,23 @@
-folder$ = "D:\FYP\Automation\test_data"
-strings = Create Strings as file list: "list", folder$ + "/*.wav"
-numberOfFiles = Get number of strings
-for ifile to numberOfFiles
-   selectObject: strings
-   fileName$ = Get string: ifile
-   Read from file: folder$ + "/" + fileName$
-   To Formant (burg)... 0 3 3000 0.04 50
+#READS IN SOUND FILES AND MAKES FORMANT OBJECTS
+folder$ = "C:\Temp\american_male_output"
+
+folder_strings = Create Strings as file list: "folder_list", folder$
+selectObject: folder_strings
+numberOfFolders = Get number of strings
+
+for ifolder to numberOfFolders
+	#Find no. of files in this folder$
+	file_strings = Create Strings as file list: "file_list", folder$ + "/*.wav"
+	selectObject: file_strings
+	numberOfFiles = Get number of strings
+	
+	for ifile to numberOfFiles
+		selectObject: file_strings
+		# ^ redundant?
+		fileName$ = Get string: ifile
+
+		Read from file: folder$ + "/" + fileName$
+		To Formant (burg)... 0 3 3000 0.04 50
+		
+	endfor
 endfor
