@@ -18,6 +18,6 @@ for thisTable from 1 to numberOfSelectedTables
 	name$ = selected$("Table")
 
 	# Old style of Praat coding, but it still works
-	do ("Save as text file...", directory$ + "\" + name$ + ".table")
+	do ("Save as comma-separated file...", directory$ + "\" + name$ + "'thisTable'.table")
 
 endfor
