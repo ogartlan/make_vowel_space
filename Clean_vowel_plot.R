@@ -3,13 +3,8 @@
   library(readr)
   library(zoo)
 
-
   # set the path where your formant table lives
-  setwd("D:\\FYP\\spanish_output")
-
-  #df <- read.csv("formants_G00007S1001.Table", stringsAsFactors = FALSE) 
-  #FUNCTION - reads in all files from a given directory that end in ".TABLE" and combines them into one data frame - "df"
-  #directory <- "D:\\FYP\\spanish_output"
+  setwd("D:\\FYP\\Automation\\test_output")
 
   df <- data.frame(vowel = character(),
                    time_index = numeric(),
@@ -21,7 +16,8 @@
                    stringsAsFactors = FALSE)
 
   # get a list of all .Table files in the directory
-  file_list <- list.files(pattern = "\\.Table$")
+  file_list <- list.files(pattern = "\\.table$")
+  print(file_list)
 
   # loop over each file and read it in using read.csv
   for (file in file_list) {
@@ -33,24 +29,6 @@
 
     df <- rbind(df, df1)
   }
-
-  #--------------------------------------------------------------------#
-  #set.seed(10)
-  #
-  #vowels = tibble(vowel = rep(c("a", "e", "i", "o", "u"), each = 50),
-  #                
-  #                F1 = c(rnorm(50, mean = 800, sd = 100), 
-  #                      rnorm(50, mean = 600, sd = 100), 
-  #                      rnorm(50, mean = 350, sd = 100), 
-  #                      rnorm(50, mean = 600, sd = 100), 
-  #                      rnorm(50, mean = 350, sd = 100)),
-  #           
-  #                F2 = c(rnorm(50, mean = 1500, sd = 150), 
-  #                       rnorm(50, mean = 2000, sd = 150), 
-  #                       rnorm(50, mean = 2500, sd = 150), 
-  #                       rnorm(50, mean = 1000, sd = 150), 
-  #                       rnorm(50, mean = 800, sd = 150)))
-  #--------------------------------------------------------------------#
 
   # the data frame should have this format:
   #     vowel time_index v_time time_abs   F1   F2   F3
@@ -68,11 +46,6 @@
   # 12     ei          4  0.073    2.048  367 2352 3257
   #
   # ... with each vowel having ten timepoints instead of four. 
-
-  #ggplot(df, aes(x = column1, y = column2)) +
-  #  geom_point()
-
-
 
   #================================================================#
   # https://en.wikipedia.org/wiki/Phonetic_symbols_in_Unicode#Vowels
@@ -153,31 +126,11 @@
                    total_time_index = numeric(),
                    stringsAsFactors = FALSE)
   print("s_s_df created")
-  # Create a function to filter data by total_time_index and within 10% of F1 at total_time_index = 5
-  #n <- 0
-  #value_at_5_01 <- df$F1[df$total_time_index == 5]
-  #subset_within_10percent <- function(df, total_time_index, n) {
-  #  # Get value at time_index = 5 for the current vowel
-  #  value_at_5 <- df$F1[df$total_time_index == (5 + (10*n))]
-  #
-  #  # Subset data for the current vowel and within 10% of value_at_5
-  #  temp_df <- subset(df, total_time_index >= (1 + (10*n)) & total_time_index <= (10 + (10*n)) & F1 >= value_at_5*0.9 & F1 <= value_at_5*1.1)
-  #
-  #  # add the subsetted rows to the steady state dataframe
-  #  steady_state_df <- rbind(steady_state_df, temp_df)
-  #  #return(steady_state_df)
-  #  print("function done")
-  #}
 
   medians_only_df <- data.frame(IPA = character(),
                    F1 = numeric(),
                    F2 = numeric(),
                    stringsAsFactors = FALSE)
-
-  #master_medians_df <- data.frame(IPA = character(),
-  #                 F1 = numeric(),
-  #                 F2 = numeric(),
-  #                 stringsAsFactors = FALSE)
 
   master_medians_df = df[FALSE,]
 
@@ -207,7 +160,7 @@
     #print("then")
     #print(temp_df)
     master_medians_df <- rbind(master_medians_df, temp_df)
-    print(master_medians_df)
+    #print(master_medians_df)
     #print("F1")
     #print(median_F1)
     #print("F2")
@@ -236,10 +189,6 @@
 
   #================================================================#
   ### ONLY TAKING THE FIRST N INSTANCES OF EACH VOWEL 
-  #df_sum <- df %>%
-  #df
-        #dplyr::filter(!vowel %in% exclude_these_Vs) %>% 
-        #group_by(vowel, IPA, time_index) %>%
 
   # set the number of instances to subset for each vowel type
   n <- 100
@@ -265,5 +214,5 @@
   px_v_space_smooth
 
   # Save the plot
-  ggsave(px_v_space_smooth, file = all_medians_spanish.jpg",
+  ggsave(px_v_space_smooth, file = test_output.png",
          height = 3.7, width = 4.8, dpi = 600)
