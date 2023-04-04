@@ -4,7 +4,7 @@
   library(zoo)
 
   # set the path where your formant table lives
-  setwd("D:\\FYP\\Automation\\test_output")
+  setwd("D:\\american\\tables_speaker1")
 
   df <- data.frame(vowel = character(),
                    time_index = numeric(),
@@ -17,7 +17,7 @@
 
   # get a list of all .Table files in the directory
   file_list <- list.files(pattern = "\\.table$")
-  print(file_list)
+  #print(file_list)
 
   # loop over each file and read it in using read.csv
   for (file in file_list) {
@@ -109,12 +109,16 @@
   # for most vowel plots, I want to leave these out. 
   exclude_these_Vs <- 
       c("AW0","AW1","AW2","AY0","AY1","AY2","OY0","OY1","OY2")
+	  
+  # making a new dataframe which does not include diphthongs
+  df_excl <- df[!df$vowel %in% exclude_these_Vs, ]
+  
   #================================================================#
   ## ONLY TAKING STEADY-STATE OF FORMANTS (Within 10% of time_index=5 value)
   # adds a column total_time_index with values 1 to however long the file is
-  df$total_time_index <- seq(1, nrow(df))
-  print("tti created")
-  # Create steady_atate_df to house only steady state formant values
+  df_excl$total_time_index <- seq(1, nrow(df_excl))
+  print("tti created and added to df_excl")
+  # Create steady_state_df to house only steady state formant values
   steady_state_df <- data.frame(vowel = character(),
                    time_index = numeric(),
                    v_time = numeric(),
@@ -125,7 +129,7 @@
                    IPA = character(),
                    total_time_index = numeric(),
                    stringsAsFactors = FALSE)
-  print("s_s_df created")
+  print("steady_state_df created")
 
   medians_only_df <- data.frame(IPA = character(),
                    F1 = numeric(),
@@ -140,26 +144,37 @@
                    stringsAsFactors = FALSE)
 
   i <- 0
-  while (i <= (nrow(df) / 10)) {
+  offset = 0
+  print(offset)
+  unwanted_values <- c(1:3, 8:10)
+  print(unwanted_values)
+  print((1 + offset) : (3 + offset))
+  print((8 + offset): (10 + offset))
+  # i.e. FOR EVERY COLLECTION OF 10 VALUES, STARTING AT THE FIRST ONE:
+  while (i <= (nrow(df_excl) / 10)) {
     #NOT USING THE FIRST AND LAST 2 TIMESTAMPS AS THESE ARE UNLIKELY TO BE STEADY STATE
-    median_df <- df[(3 + (10*i)):(8 + (10*i)), ]
+    #median_df <- df_excl[(3 + (10*i)):(8 + (10*i)), ]
+	#steady_state_df <- df_excl[(3 + (10*i)):(8 + (10*i)), ]
+	#df_excl <- df_excl[!df$total_time_index %in% unwanted_values, ]
     #print("3rd plus 10i of df now: ")
     #print(df[3 + (10*i)])
-    median_df <- arrange(median_df, F1)
-    median_F1 <- (median_df[3, "F1"] + median_df[4, "F1"]) / 2
-    median_df <- arrange(median_df, F2)
-    median_F2 <- (median_df[3, "F2"] + median_df[4, "F2"]) / 2
+    ##median_df <- arrange(median_df, F1)
+    ##median_F1 <- (median_df[3, "F1"] + median_df[4, "F1"]) / 2
+    ##median_df <- arrange(median_df, F2)
+    ##median_F2 <- (median_df[3, "F2"] + median_df[4, "F2"]) / 2
     #median_F2 <- median(subset(median_
-    
-    temp_df <- data.frame()
-    temp_df <- rbind(temp_df, df[3 + (10*i), ])
+	offset = 10 * i
+    df_excl <- df_excl[!df_excl$total_time_index %in% c((1 + offset) : (3 + offset)), ]
+	df_excl <- df_excl[!df_excl$total_time_index %in% c((8 + offset): (10 + offset)), ]
+    ##temp_df <- data.frame()
+    ##temp_df <- rbind(temp_df, df[3 + (10*i), ])
     #print("first")
     #print(temp_df)
-    temp_df[1, 5] <- median_F1
-    temp_df[1, 6] <- median_F2
+    ##temp_df[1, 5] <- median_F1
+    ##temp_df[1, 6] <- median_F2
     #print("then")
     #print(temp_df)
-    master_medians_df <- rbind(master_medians_df, temp_df)
+    ##master_medians_df <- rbind(master_medians_df, temp_df)
     #print(master_medians_df)
     #print("F1")
     #print(median_F1)
@@ -167,8 +182,9 @@
     #print(median_F2)
     #print(master_medians_df)
     i <- i + 1
-    #print(i)
   }
+
+  print(df_excl)
 
   
 
@@ -176,6 +192,8 @@
   
   m <- 1
   
+  
+ # MEDIAN PLOTTING -----------------------
  while (m <= length(IPA_list)) {
     plotting_medians_df[m,1] <- IPA_list[m]
     plotting_medians_df[m,2] <- median(subset(master_medians_df, IPA == IPA_list[m])$F1)
@@ -191,22 +209,23 @@
   ### ONLY TAKING THE FIRST N INSTANCES OF EACH VOWEL 
 
   # set the number of instances to subset for each vowel type
-  n <- 100
+  n <- 3
 
   # subset the first n instances of every vowel type
-  df_subset <- steady_state_df %>% 
+  df_subset <- df_excl %>% ##steady_state_df %>% 
     group_by(IPA) %>% 
     slice(seq_len(n))
   #================================================================#
+  print(df_subset)
 
-  px_v_space_smooth <- plotting_medians_df%>%   # df_sum %>%
+  px_v_space_smooth <- df_subset%>% #plotting_medians_df%>%   # df_sum %>%
     ggplot(.)+
     #data = vowels, 
     aes(x = F2, y = F1, color = IPA, label = IPA) + 
     geom_text(size = 3) +
     scale_y_reverse(position = "right") + 
     scale_x_reverse(position = "top") +
-    # geom_density_2d() +
+    geom_density_2d() +
     theme(legend.position = "none") +
     theme_classic() #+
     #xlim(0, 1400) +
@@ -214,5 +233,5 @@
   px_v_space_smooth
 
   # Save the plot
-  ggsave(px_v_space_smooth, file = test_output.png",
+  ggsave(px_v_space_smooth, file = test00.png",
          height = 3.7, width = 4.8, dpi = 600)
